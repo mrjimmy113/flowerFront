@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add new Flower</h5>
+        <h5 class="modal-title">Edit Flower</h5>
         <button type="button" class="close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -43,14 +43,12 @@
           </div>
           <div class="form-group">
             <div class="row">
-              <div class="col-sm-9">
+              <div class="col-sm-6">
                 <label>Image</label> <br>
-                <input type="file" (change)="onFileChange($event)" name="image" [(ngModel)]="dump" #imageH='ngModel'
-                  required pattern="([^\s]+(\.)(jpg|png|gif|bmp)$)">
+                <input type="file" (change)="onFileChange($event)" name="image" [(ngModel)]="dump"
+                  #imageH='ngModel' pattern="([^\s]+(\.)(jpg|png|gif|bmp)$)">
                 <div *ngIf="imageH.invalid && (imageH.dirty || imageH.touched)" class="text-danger">
-                  <div *ngIf="imageH.errors.required">
-                    Image is required
-                  </div>
+
                   <div *ngIf="imageH.errors.pattern">
                     This file is not an image
                   </div>
@@ -61,10 +59,13 @@
                 </div>
               </div>
               <div class="col-sm-3">
-                <label>Preview</label> <br>
-                <img [src]="previewImage || 'http://placehold.it/180'" width="75px" height="75px" />
+                  <label>New File</label> <br>
+                  <img [src]="previewImage || 'http://placehold.it/180'" width="75px" height="75px"/>
               </div>
-
+              <div class="col-sm-3">
+                <label>Old File</label> <br>
+                <img [src]="flower.imageUrl | safeURL" width="75px" height="75px"/>
+              </div>
 
             </div>
           </div>
@@ -73,17 +74,13 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="col-sm-6">
-          <h4><span class="badge badge-pill badge-success" *ngIf="requestStatus == 201">success</span></h4>
-          <h4><span class="badge badge-pill badge-danger" *ngIf="requestStatus == 500">fail</span></h4>
-        </div>
-        <div class="col-sm-6 d-flex justify-content-end" style="padding: 0px">
+
+        <div class="col-sm-12 d-flex justify-content-end" style="padding: 0px">
           <button type="button" class="btn btn-success" (click)="onSubmit(flowerForm)"
             [disabled]="!flowerForm.form.valid || (requestStatus ==1) || isOverSize">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
               *ngIf="requestStatus == 1"></span>
-            <span *ngIf="requestStatus == 0">Add</span>
-            <span *ngIf="requestStatus == 201">Continue</span>
+            Save Change
           </button>
           <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
         </div>

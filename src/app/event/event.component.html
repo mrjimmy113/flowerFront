@@ -1,0 +1,30 @@
+<h2>Event</h2>
+
+<button class="btn btn-success" (click)="openCreate()">New event</button>
+<div class="list-group">
+
+  <div class="card" *ngFor="let event of eventList; let i = index">
+    <div class="list-group-item w3-hover-blue ">
+      <div class="row">
+        <div class="row col-sm-10">
+
+          <div class="col-sm-5 d-flex align-items-center">
+            {{event .name}}
+          </div>
+
+        </div>
+
+        <div class="col-sm-2 d-flex align-items-center">
+          <div class="w3-dropdown-hover">
+            <i class="fas fa-pen "></i>
+            <div class="w3-dropdown-content w3-bar-block">
+              <button href="#" class="w3-bar-item btn btn-info" (click)="openEdit(event)">Edit</button>
+              <button href="#" class="w3-bar-item btn btn-danger" (click)="delete(event.id)">Xóa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
