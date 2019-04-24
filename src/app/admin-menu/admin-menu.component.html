@@ -8,13 +8,11 @@
     </div>
     <div class="list-group" style="padding-left: 15px">
       <div>
-        <div class="list-group-item w3-blue w3-hover-green d-flex align-content-center"
-          (click)="openStuffManagement()" [ngClass]="{'w3-green': isStuffManagementOpen}">
-          <i class="fas fa-caret-right" style="font-size: 24px" *ngIf="!isStuffManagementOpen"></i>
-          <i class="fas fa-caret-down" style="font-size: 24px" *ngIf="isStuffManagementOpen"></i>
+        <div class="list-group-item w3-indigo d-flex align-content-center" >
+          <i class="fas fa-caret-down" style="font-size: 24px"></i>
           <span style="padding-left: 5px">Stuff Management</span>
         </div>
-        <div *ngIf="isStuffManagementOpen">
+        <div>
           <a href="/event">
             <div class="list-group-item w3-blue w3-hover-green d-flex align-content-center ">
               <i class="fas fa-bezier-curve" style="font-size: 24px"></i>
@@ -36,15 +34,26 @@
         </div>
       </div>
 
-      <a>
-        <div class="list-group-item w3-blue w3-hover-green d-flex align-content-center">
-          <i class="fas fa-box-open" style="font-size: 24px"></i>
-          <span style="padding-left: 5px">Kho hàng</span>
+      <div>
+        <div class="list-group-item w3-indigo d-flex align-content-center">
+          <i class="fas fa-caret-down" style="font-size: 24px" ></i>
+          <span style="padding-left: 5px">Import Management</span>
         </div>
-      </a>
-
-
-
+        <div>
+            <a href="/flowerImport">
+              <div class="list-group-item w3-blue w3-hover-green d-flex align-content-center">
+                <i class="fas fa-leaf" style="font-size: 24px"></i>
+                <span style="padding-left: 5px">Flower Import</span>
+              </div>
+            </a>
+          <a href="/itemImport">
+            <div class="list-group-item w3-blue w3-hover-green d-flex align-content-center">
+              <i class="fas fa-cubes" style="font-size: 30px"></i>
+              <span style="padding-left: 5px">Item Import</span>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-sm-10" style="padding-right: 20px">

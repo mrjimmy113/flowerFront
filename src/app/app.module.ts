@@ -14,6 +14,11 @@ import { ItemSaveComponent } from './item-save/item-save.component';
 import { EventComponent } from './event/event.component';
 import { EventSaveComponent } from './event-save/event-save.component';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
+import { FlowerImportComponent } from './flower-import/flower-import.component';
+import { FlowerImportNewComponent } from './flower-import-new/flower-import-new.component';
+import { ItemImportComponent } from './item-import/item-import.component';
+import { ItemImportNewComponent } from './item-import-new/item-import-new.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -29,6 +34,11 @@ import { AdminMenuComponent } from './admin-menu/admin-menu.component';
     EventComponent,
     EventSaveComponent,
     AdminMenuComponent,
+    FlowerImportComponent,
+    FlowerImportNewComponent,
+    ItemImportComponent,
+    ItemImportNewComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +51,8 @@ import { AdminMenuComponent } from './admin-menu/admin-menu.component';
     FlowerUpdateComponent,
     ItemSaveComponent,
     EventSaveComponent,
+    FlowerImportNewComponent,
+    ItemImportNewComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

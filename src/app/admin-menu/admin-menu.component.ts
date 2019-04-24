@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminMenuComponent implements OnInit {
   isStuffManagementOpen = false;
+  isItemManagementOpen = false;
   constructor() { }
 
   ngOnInit() {
@@ -14,6 +15,9 @@ export class AdminMenuComponent implements OnInit {
 
   openStuffManagement() {
     this.isStuffManagementOpen = !this.isStuffManagementOpen;
+  }
+  openImportManagement() {
+    this.isItemManagementOpen = !this.isItemManagementOpen;
   }
 
 }

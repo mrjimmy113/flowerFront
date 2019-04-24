@@ -1,0 +1,28 @@
+.listItem {
+  height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 20px;
+}
+.nopadding{
+  padding: 0px;
+}
+.rowpadding{
+  padding-top: 5px;
+
+}
+.heading{
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+.autocomplete {
+  position: absolute;
+  z-index: 99;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: calc(100% - 30px);
+
+}

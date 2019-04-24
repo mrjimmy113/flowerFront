@@ -1,0 +1,105 @@
+<div class="">
+    <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Import Item</h5>
+                <button type="button" class="close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--Heading-->
+                <div class="row w3-blue heading">
+                    <div class="col-sm-1 nopadding">
+
+                    </div>
+                    <div class="col-sm-4 nopadding">
+                        Item Name
+                    </div>
+                    <div class="col-sm-3">
+                        Unit Price
+                    </div>
+                    <div class="col-sm-2 d-flex justify-content-center">
+                        Quantity
+                    </div>
+
+                </div>
+                <!--Row-->
+                <div class="listItem scrollbar-primary">
+                    <div class="row rowpadding" *ngFor="let detailImport of itemImport.details; let i = index">
+                        <div class="col-sm-1 nopadding d-flex flex-row-reverse">
+                            <i class="fa fa-trash d-flex justify-content-center"
+                                style="font-size: 17px; padding-top: 2px; padding-right: 15px; padding-bottom: 2px"
+                                aria-hidden="true" (click)="removeDetail(i)"></i>
+                        </div>
+                        <div class="col-sm-4 nopadding">
+                            {{detailImport.item.name}}
+                        </div>
+                        <div class="col-sm-3 d-flex">
+                            {{detailImport.unitPrice}}&#8363;
+                        </div>
+                        <div class="col-sm-2 d-flex justify-content-center">
+                            {{detailImport.quantity}}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row w3-blue heading d-flex flex-row-reverse">
+                    <div style="margin-right: 15px">
+                        Tổng: {{itemImport.total | number}} &#8363;
+                    </div>
+                </div>
+                <form #detailForm="ngForm" autocomplete="off" style="margin-top: 5px">
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label>Item Name</label>
+                            <input type="text" class="form-control" (keyup)="findItem($event)"
+                                (blur)="resetItem()" name="flower" #flower="ngModel"
+                                [(ngModel)]="itemName" required />
+
+                            <div class="autocomplete scrollbar-primary">
+                                <div class="form-control w3-hover-blue"
+                                    *ngFor="let item of searchItemList; let i = index"
+                                    (click)="chooseItem(item)">
+                                    {{item.name}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>Unit Price</label>
+                            <input type="number" class="form-control" name="price" #price="ngModel" [(ngModel)]="detail.unitPrice"/>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>Quantity</label>
+                            <input type="number" class="form-control" min="1"
+                                onKeyDown="return false" [disabled]="maxQuantity == 0" required name="quantity"
+                                #quantity="ngModel" [(ngModel)]="detail.quantity" />
+
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-info" (click)="onSubmit()"
+                            [disabled]="!detailForm.form.valid || (detail.quantity == 0 )">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-6">
+                    <h4><span class="badge badge-pill badge-success" *ngIf="requestStatus == 200">Success</span></h4>
+                    <h4><span class="badge badge-pill badge-danger" *ngIf="requestStatus == 400">Fail</span></h4>
+                </div>
+                <div class="col-sm-6 d-flex justify-content-end" style="padding: 0px">
+                        <button type="button" class="btn btn-success" (click)="submitOrder()"
+                        [disabled]="(requestStatus ==1)">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="requestStatus == 1" ></span>
+                        <span *ngIf="requestStatus == 0">Submit</span>
+                        <span *ngIf="requestStatus == 200">New Import</span>
+                      </button>
+                        <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+  </div>
