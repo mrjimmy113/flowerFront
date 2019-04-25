@@ -8,11 +8,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ItemService {
-  private api = environment.apiEndPoint + "item/";
+  private api = environment.apiEndPoint + "item";
   constructor(private http:HttpClient) { }
 
-  findAll():Observable<Item[]> {
-    return this.http.get<Item[]>(this.api);
+  findAll():Observable<any> {
+    return this.http.get<any>(this.api + "?searchTerm=");
   }
   create(item):Observable<Number>{
     return this.http.post<Number>(this.api, item);
@@ -23,5 +23,10 @@ export class ItemService {
   delete(id):Observable<Number>{
     return this.http.delete<Number>(this.api + id);
   }
-
+  searchWithPage(searchTerm,pageNum):Observable<Item[]> {
+    return this.http.get<Item[]>(this.api + "/search?searchTerm=" + searchTerm + "&pageNum=" + pageNum);
+  }
+  search(searchTerm):any {
+    return this.http.get<any>(this.api + "?searchTerm=" + searchTerm);
+  }
 }

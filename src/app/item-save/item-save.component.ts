@@ -41,7 +41,7 @@ export class ItemSaveComponent implements OnInit {
         this.modalSer.destroy();
       });
     } else {
-      if (this.requestStatus == 201) {
+      if (this.requestStatus == 200) {
         this.initNewFlower();
         this.requestStatus = 0;
         itemForm.resetForm();
