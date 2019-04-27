@@ -19,6 +19,8 @@ import { FlowerImportNewComponent } from './flower-import-new/flower-import-new.
 import { ItemImportComponent } from './item-import/item-import.component';
 import { ItemImportNewComponent } from './item-import-new/item-import-new.component';
 import { LoginComponent } from './login/login.component';
+import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import { LoginComponent } from './login/login.component';
     ItemImportComponent,
     ItemImportNewComponent,
     LoginComponent,
+    HeaderComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

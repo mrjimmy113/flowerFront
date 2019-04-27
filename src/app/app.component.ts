@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'flowerFront';
+  isAdmin = false;
+  ngOnInit(): void {
+    this.isAdmin = (window.location.href).includes('admin');
+  }
 }

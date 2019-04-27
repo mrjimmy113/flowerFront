@@ -1,3 +1,4 @@
 <div id="modal-container" class="hidden"></div>
 <div id="overlay" class="overlay" class="hidden"></div>
-<app-admin-menu></app-admin-menu>
+<app-admin-menu *ngIf="isAdmin"></app-admin-menu>
+<app-header *ngIf="!isAdmin"></app-header>
