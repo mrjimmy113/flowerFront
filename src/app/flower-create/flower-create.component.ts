@@ -2,7 +2,7 @@ import { EventService } from './../service/event.service';
 import { ModalService } from "./../service/modal.service";
 import { FlowerService } from "./../service/flower.service";
 import { Flower } from "./../models/flower";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { NgForm } from "@angular/forms";
 
 @Component({
@@ -11,6 +11,7 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./flower-create.component.css"]
 })
 export class FlowerCreateComponent implements OnInit {
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   flower;
   tmp;
@@ -36,6 +37,7 @@ export class FlowerCreateComponent implements OnInit {
   }
 
   closeModal() {
+    this.outputs[0]();
     this.modalSer.destroy();
   }
   onSubmit(flowerForm: NgForm) {

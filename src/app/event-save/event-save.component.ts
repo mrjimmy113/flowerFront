@@ -1,5 +1,5 @@
 import { EventService } from './../service/event.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalService } from '../service/modal.service';
 import { Event } from '../models/event';
 
@@ -10,6 +10,7 @@ import { Event } from '../models/event';
 })
 export class EventSaveComponent implements OnInit {
   @Input() inputs;
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   event;
   isEdit = false;
@@ -31,6 +32,7 @@ export class EventSaveComponent implements OnInit {
   }
 
   closeModal() {
+    this.outputs[0]()
     this.modalSer.destroy();
   }
   onSubmit(eventForm) {

@@ -1,42 +1,41 @@
-import { environment } from './../../environments/environment';
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Flower } from '../models/flower';
+import { environment } from "./../../environments/environment";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Flower } from "../models/flower";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class FlowerService {
-  private api = "flower"
-  private updateWithFileAPI = "/updateFile";
-  private cl ="cl";
+  private api = environment.apiEndPoint + "flower";
+  private updateWithFileAPI = "/update";
 
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-
-  create(flower):Observable<Number> {
-    return this.http.post<Number>(environment.apiEndPoint + this.api, flower);
+  getAll(): Observable<Flower[]> {
+    return this.http.get<Flower[]>(this.api + "/all");
   }
 
-  findAll():Observable<Flower[]>{
-    return this.http.get<Flower[]>(environment.apiEndPoint + this.api);
+  create(flower): Observable<Number> {
+    return this.http.post<Number>(this.api, flower);
   }
-  updateWithFile(flower):Observable<Number>{
-    return this.http.post<Number>(environment.apiEndPoint + this.api + this.updateWithFileAPI, flower);
+
+  findAll(): Observable<any> {
+    return this.http.get<any>(this.api + "?searchTerm=");
   }
-  updateNoFile(flower):Observable<Number>{
-    console.log(environment.apiEndPoint + this.api + this.updateWithFileAPI);
-    return this.http.get<Number>(environment.apiEndPoint + this.api + this.updateWithFileAPI);
+  update(flower): Observable<Number> {
+    return this.http.post<Number>(this.api + this.updateWithFileAPI, flower);
   }
-  clmn():Observable<Number>{
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      })
-    };
-    return this.http.get<Number>(environment.apiEndPoint +  this.cl,httpOptions);
+  searchWithPage(searchTerm, pageNum): Observable<Flower[]> {
+    return this.http.get<Flower[]>(
+      this.api + "/search?searchTerm=" + searchTerm + "&pageNum=" + pageNum
+    );
+  }
+  search(searchTerm): any {
+    return this.http.get<any>(this.api + "?searchTerm=" + searchTerm);
+  }
+  delete(id): Observable<Number> {
+    return this.http.delete<Number>(this.api + "/" + id);
   }
 }

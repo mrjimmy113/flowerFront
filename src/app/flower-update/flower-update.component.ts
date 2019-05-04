@@ -1,6 +1,6 @@
 import { FlowerService } from "./../service/flower.service";
 import { ModalService } from "./../service/modal.service";
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-flower-update",
@@ -9,6 +9,7 @@ import { Component, OnInit, Input } from "@angular/core";
 })
 export class FlowerUpdateComponent implements OnInit {
   @Input() inputs;
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   flower;
   tmp;
@@ -26,6 +27,7 @@ export class FlowerUpdateComponent implements OnInit {
   }
 
   closeModal() {
+    this.outputs[0]();
     this.modalSer.destroy();
   }
   onFileChange(event) {
@@ -43,17 +45,11 @@ export class FlowerUpdateComponent implements OnInit {
   }
   onSubmit() {
     this.requestStatus = 1;
-    if (!(this.previewImage == null)) {
-      const fd = new FormData();
-      fd.append("file", this.tmp);
-      fd.append("dto", JSON.stringify(this.flower));
-      this.flowerSer.updateWithFile(fd).subscribe(result => {
-        this.requestStatus = result;
-      });
-    }else {
-      this.flowerSer.updateNoFile(this.flower).subscribe(result => {
-        this.requestStatus = result;
-      });
-    }
+    const fd = new FormData();
+    fd.append("file", this.tmp);
+    fd.append("dto", JSON.stringify(this.flower));
+    this.flowerSer.update(fd).subscribe(result => {
+      this.modalSer.destroy();
+    });
   }
 }

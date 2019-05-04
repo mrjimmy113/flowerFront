@@ -1,7 +1,7 @@
 import { ItemService } from "./../service/item.service";
 import { ModalService } from "./../service/modal.service";
 import { Item } from "./../models/item";
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-item-save",
@@ -10,6 +10,7 @@ import { Component, OnInit, Input } from "@angular/core";
 })
 export class ItemSaveComponent implements OnInit {
   @Input() inputs;
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   item;
   isEdit = false;
@@ -31,6 +32,7 @@ export class ItemSaveComponent implements OnInit {
   }
 
   closeModal() {
+    this.outputs[0]();
     this.modalSer.destroy();
   }
   onSubmit(itemForm) {

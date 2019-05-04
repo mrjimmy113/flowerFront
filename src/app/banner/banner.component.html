@@ -1,0 +1,41 @@
+<h2>Banner</h2>
+<button class="btn btn-success" (click)="openCreate()">New Banner</button>
+<div class="list-group" style="margin-top: 15px">
+    <!--Heading-->
+    <div class="list-group-item w3-indigo">
+        <div class="row">
+            <div class="row col-sm-10">
+              <div class="col-sm-5 d-flex align-items-center">
+                Event Name
+              </div>
+            </div>
+            <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                Operation
+            </div>
+          </div>
+    </div>
+    <!--Row-->
+    <div class="card" *ngFor="let event of eventList; let i = index">
+      <div class="list-group-item w3-hover-blue ">
+        <div class="row">
+          <div class="row col-sm-10">
+
+            <div class="col-sm-12 d-flex align-items-center">
+              <img src="{{event.imageUrl}}" width="300px"/>
+            </div>
+
+          </div>
+
+          <div class="col-sm-2 d-flex align-items-center justify-content-center">
+            <div class="w3-dropdown-hover">
+              <i class="fas fa-pen "></i>
+              <div class="w3-dropdown-content w3-bar-block">
+                <button href="#" class="w3-bar-item btn btn-danger" (click)="delete(event.bannerId)">Xóa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>

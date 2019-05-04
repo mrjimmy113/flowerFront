@@ -22,19 +22,21 @@ export class ItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.itemSer.findAll().subscribe(result => {
-      this.itemList = result.list;
-      this.maxPage = result.maxPage;
-    });
+    this.getAll();
   }
   openCreate() {
-    this.modalSer.init(ItemSaveComponent, null, null);
+    this.modalSer.init(ItemSaveComponent, null, [() => this.getAll()]);
   }
   openEdit(item) {
-    this.modalSer.init(ItemSaveComponent, item, []);
+    this.modalSer.init(ItemSaveComponent, item, [() => this.getAll()]);
   }
   delete(id) {
-    this.itemSer.delete(id).subscribe();
+    this.itemSer.delete(id).subscribe(
+      result => {
+        if(result == 200) this.getAll();
+        if((result == 400) || (result == 500)) alert("Error");
+      }
+    );
   }
   sort(property) {
     if (this.isSort == property) {
@@ -53,6 +55,12 @@ export class ItemComponent implements OnInit {
   }
   search() {
     this.itemSer.search(this.searchTerm).subscribe(result => {
+      this.itemList = result.list;
+      this.maxPage = result.maxPage;
+    });
+  }
+  getAll() {
+    this.itemSer.findAll().subscribe(result => {
       this.itemList = result.list;
       this.maxPage = result.maxPage;
     });

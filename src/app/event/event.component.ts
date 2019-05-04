@@ -13,16 +13,24 @@ export class EventComponent implements OnInit {
   constructor(private eventSer:EventService, private modalSer: ModalService) { }
 
   ngOnInit() {
-    this.eventSer.findAll().subscribe(result => {this.eventList = result; console.log(result)});
+    this.getEvent();
   }
   openCreate() {
-    this.modalSer.init(EventSaveComponent, null,null);
+    this.modalSer.init(EventSaveComponent, null,[() => this.getEvent()]);
   }
   openEdit(event) {
-    this.modalSer.init(EventSaveComponent,event,[]);
+    this.modalSer.init(EventSaveComponent,event,[() => this.getEvent()]);
   }
   delete(id) {
-    this.eventSer.delete(id).subscribe();
+    this.eventSer.delete(id).subscribe(
+      result => {
+        if(result == 200) this.getEvent();
+        if((result == 400) || (result == 500)) alert("Error");
+      }
+    );
+  }
+  getEvent() {
+    this.eventSer.findAll().subscribe(result => {this.eventList = result});
   }
 
 }

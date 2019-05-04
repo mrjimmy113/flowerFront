@@ -2,7 +2,7 @@ import { ItemImportService } from './../service/item-import.service';
 import { ItemService } from './../service/item.service';
 import { ItemImportDetail } from './../models/itemImportDetail';
 import { ItemImport } from './../models/itemImport';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Item } from '../models/item';
 import { ModalService } from '../service/modal.service';
 
@@ -12,6 +12,7 @@ import { ModalService } from '../service/modal.service';
   styleUrls: ['./item-import-new.component.css']
 })
 export class ItemImportNewComponent implements OnInit {
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   itemImport: ItemImport;
   itemList = new Array<Item>();
@@ -26,11 +27,12 @@ export class ItemImportNewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.itemSer.findAll().subscribe(result => (this.itemList = result));
+    this.itemSer.getAll().subscribe(result => (this.itemList = result));
     this.initNewImport();
   }
 
   closeModal() {
+    this.outputs[0]();
     this.modalSer.destroy();
   }
 

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { AppComponent } from './app.component';
 import { FlowerCreateComponent } from './flower-create/flower-create.component';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FlowerComponent } from './flower/flower.component';
 import { SafeURLPipe } from './pipe/safe-url.pipe';
@@ -21,7 +21,21 @@ import { ItemImportNewComponent } from './item-import-new/item-import-new.compon
 import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
-
+import { ProductComponent } from './product/product.component';
+import { ProductCreateComponent } from './product-create/product-create.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ProductEditComponent } from './product-edit/product-edit.component';
+import { DatePipe } from '@angular/common';
+import { TokenInterceptor } from './interceptor/tokenAuth.interceptor';
+import { SearchComponent } from './search/search.component';
+import { AccountComponent } from './account/account.component';
+import { BannerComponent } from './banner/banner.component';
+import { AccountSaveComponent } from './account-save/account-save.component';
+import { BannerSaveComponent } from './banner-save/banner-save.component';
+import { AccountRegComponent } from './account-reg/account-reg.component';
+import { CartComponent } from './cart/cart.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { OrderShipmentComponent } from './order-shipment/order-shipment.component';
 
 @NgModule({
   declarations: [
@@ -43,12 +57,25 @@ import { HomeComponent } from './home/home.component';
     LoginComponent,
     HeaderComponent,
     HomeComponent,
+    ProductComponent,
+    ProductCreateComponent,
+    ProductEditComponent,
+    SearchComponent,
+    AccountComponent,
+    BannerComponent,
+    AccountSaveComponent,
+    BannerSaveComponent,
+    AccountRegComponent,
+    CartComponent,
+    ProductDetailComponent,
+    OrderShipmentComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    CKEditorModule,
   ],
   entryComponents: [
     FlowerCreateComponent,
@@ -56,9 +83,18 @@ import { HomeComponent } from './home/home.component';
     ItemSaveComponent,
     EventSaveComponent,
     FlowerImportNewComponent,
-    ItemImportNewComponent
+    ItemImportNewComponent,
+    ProductCreateComponent,
+    ProductEditComponent,
+    BannerSaveComponent,
+    AccountSaveComponent,
+    ProductDetailComponent
   ],
-  providers: [],
+  providers: [DatePipe, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

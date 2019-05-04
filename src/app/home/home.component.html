@@ -27,46 +27,13 @@
         <h4>Recently Sold</h4>
     </div>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3" *ngFor="let product of productList" (click)="showDetail(product.productId)">
             <div class="card mb-3">
-                <img style="height: 200px; width: 100%; display: block;" src="https://365happyflower.com/data/item/HAPPYB50/thumb-BohoatuoihappyflowerE01_215x215.jpg">
+                <img style="height: 200px; width: 100%; display: block;" src="{{product.imageUrl}}">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-center">Happy 01</li>
+                  <li class="list-group-item d-flex justify-content-center">{{product.productName}}</li>
                   <li class="list-group-item d-flex justify-content-end">
-                    <span class="badge badge-success">100.000 Vnd</span>
-                  </li>
-                </ul>
-              </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card mb-3">
-                <img style="height: 200px; width: 100%; display: block;" src="https://365happyflower.com/data/item/HAPPYB50/thumb-BohoatuoihappyflowerE01_215x215.jpg">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-center">Happy 01</li>
-                  <li class="list-group-item d-flex justify-content-end">
-                    <span class="badge badge-success">100.000 Vnd</span>
-                  </li>
-                </ul>
-              </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card mb-3">
-                <img style="height: 200px; width: 100%; display: block;" src="https://365happyflower.com/data/item/HAPPYB50/thumb-BohoatuoihappyflowerE01_215x215.jpg">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-center">Happy 01</li>
-                  <li class="list-group-item d-flex justify-content-end">
-                    <span class="badge badge-success">100.000 Vnd</span>
-                  </li>
-                </ul>
-              </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card mb-3">
-                <img style="height: 200px; width: 100%; display: block;" src="https://365happyflower.com/data/item/HAPPYB50/thumb-BohoatuoihappyflowerE01_215x215.jpg">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item d-flex justify-content-center">Happy 01</li>
-                  <li class="list-group-item d-flex justify-content-end">
-                    <span class="badge badge-success">100.000 Vnd</span>
+                    <span class="badge badge-success">{{product.price | number}} VND</span>
                   </li>
                 </ul>
               </div>

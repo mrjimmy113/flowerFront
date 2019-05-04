@@ -11,6 +11,10 @@ export class ItemService {
   private api = environment.apiEndPoint + "item";
   constructor(private http:HttpClient) { }
 
+  getAll() :Observable<Item[]> {
+    return this.http.get<Item[]>(this.api + "/all");
+  }
+
   findAll():Observable<any> {
     return this.http.get<any>(this.api + "?searchTerm=");
   }
@@ -21,7 +25,7 @@ export class ItemService {
     return this.http.put<Number>(this.api,item);
   }
   delete(id):Observable<Number>{
-    return this.http.delete<Number>(this.api + id);
+    return this.http.delete<Number>(this.api + "/" + id);
   }
   searchWithPage(searchTerm,pageNum):Observable<Item[]> {
     return this.http.get<Item[]>(this.api + "/search?searchTerm=" + searchTerm + "&pageNum=" + pageNum);

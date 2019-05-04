@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <div class="d-flex justify-content-center">
+      <h3>Your cart</h3>
+    </div>
+    <div *ngIf="detailList">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-secondary" *ngFor="let detail of detailList">
+            <td>
+              <button class="btn btn-danger	glyphicon glyphicon-trash"
+                (click)="removeItem(detail.product.productId)">DEL</button>
+
+            </td>
+            <td>
+              {{detail.product.productName}}
+            </td>
+            <td scope="row">
+              <button (click)="down(detail)" class="btn btn-info btn-sm"
+                [disabled]="detail.quantity == 1">&#10094;</button>
+              <span class="btn">{{detail.quantity}} </span>
+              <button (click)="up(detail)" class="btn btn-info btn-sm">&#10095;</button>
+            </td>
+
+            <td>
+              <span class="btn">{{detail.unit | number}}&#8363;</span>
+
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end">
+        <span class="text-info">Total Price: </span> {{total | number }}&#8363;
+      </div>
+
+      <div class="row">
+        <!--Order Infor-->
+        <div class="col-sm-6">
+          <form #orderForm="ngForm">
+            <div class="form-group">
+              <label>Shipped Date</label>
+              <input type="date" class="form-control" name="shippedDate" #shippedDate='ngModel'
+                placeholder="Enter shippedDate" [(ngModel)]="order.shippedDate" required
+                [ngClass]="{'is-invalid': (shippedDate.invalid && (shippedDate.dirty || shippedDate.touched))}">
+              <div *ngIf="shippedDate.invalid && (shippedDate.dirty || shippedDate.touched)" class="text-danger">
+                <div *ngIf="shippedDate.errors.required">
+                  Shipped Date is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Shipped Address</label>
+              <input type="text" class="form-control" name="shipAddress" #shipAddress='ngModel'
+                placeholder="Enter Ship Address" [(ngModel)]="order.shipAddress" required
+                [ngClass]="{'is-invalid': (shipAddress.invalid && (shipAddress.dirty || shipAddress.touched))}">
+              <div *ngIf="shipAddress.invalid && (shipAddress.dirty || shipAddress.touched)" class="text-danger">
+                <div *ngIf="shipAddress.errors.required">
+                  Shipped Date is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Payment Method:</label>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" checked="true" [value]="COD" name="payment"
+                    #payment="ngModel" [(ngModel)]="order.paymentMethod">
+                  Cash On Delivery
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center">
+          <div class="">
+              <button class="btn btn-success" (click)="checkOut()">Check Out</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="!detailList" class="d-flex justify-content-center ">
+      <h4>Empty Cart</h4>
+    </div>
+  </div>
+  <div class="col-sm-2"></div>
+</div>>

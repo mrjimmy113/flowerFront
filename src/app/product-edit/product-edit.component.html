@@ -1,0 +1,226 @@
+<div class="">
+  <div class="modal-xl modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add new Product</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+          <div class="row">
+            <!--Basic Infor-->
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" class="form-control" placeholder="Fill in product name" name="name"
+                  [(ngModel)]="product.productName" #name='ngModel' required
+                  [ngClass]="{'is-invalid': (name.invalid && (name.dirty || name.touched))}">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+                  <div *ngIf="name.errors.required">
+                    Please fill in product name
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label>Event</label>
+                <select class="form-control" [(ngModel)]="product.event" name="eventId" #eventId="ngModel">
+                  <option *ngFor="let event of eventList" [ngValue]="event">
+                    {{event.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price</label>
+                <div class="input-group mb-3">
+
+                  <input type="number" class="form-control" placeholder="Fill in product price" name="price"
+                    [(ngModel)]="product.price" required #price='ngModel' pattern="^[1-9]?[0-9]{1,9}$"
+                    [ngClass]="{'is-invalid': (price.invalid && (price.dirty || price.touched))}">
+                  <div class="input-group-append">
+                    <span class="input-group-text">VNĐ</span>
+                  </div>
+                </div>
+                <div *ngIf="price.invalid && (price.dirty || price.touched)" class="text-danger">
+                  <div *ngIf="price.errors.required">
+                    Price is not valid
+                  </div>
+                  <div *ngIf="price.errors.pattern">
+                    Price is not valid
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label>Image</label> <br>
+                    <input type="file" (change)="onFileChange($event)" name="image" [(ngModel)]="dump" #imageH='ngModel'
+                       pattern="([^\s]+(\.)(jpg|png|gif|bmp)$)">
+                    <div *ngIf="imageH.invalid && (imageH.dirty || imageH.touched)" class="text-danger">
+                      <div *ngIf="imageH.errors.pattern">
+                        This file is not an image
+                      </div>
+
+                    </div>
+                    <div *ngIf="isOverSize" class="text-danger">
+                      This file is too large
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <label>Preview</label> <br>
+                    <img [src]="previewImage || 'http://placehold.it/180'" width="75px" height="75px" />
+                  </div>
+                  <div class="col-sm-3">
+                    <label>Current</label> <br>
+                    <img [src]="product.imageUrl" width="75px" height="75px" />
+                  </div>
+                  <label>Description</label>
+                  <ckeditor [(ngModel)]="product.productDescription" [editor]="Editor" [ngModelOptions]="{standalone: true}"></ckeditor>
+
+                </div>
+              </div>
+            </div>
+            <!--Ingrediant-->
+            <div class="col-sm-6">
+                <div class="modal-body">
+                  <!--Heading-->
+                  <div class="row w3-blue heading">
+                    <div class="col-sm-1 nopadding">
+
+                    </div>
+                    <div class="col-sm-6 nopadding">
+                      Name
+                    </div>
+                    <div class="col-sm-5 d-flex justify-content-center">
+                      Quantity
+                    </div>
+
+                  </div>
+                  <!--Row-->
+                  <div class="listItem scrollbar-primary">
+                    <div class="row rowpadding" *ngFor="let flower of flowers; let i = index">
+                      <div class="col-sm-1 nopadding d-flex flex-row-reverse">
+                        <i class="fa fa-trash d-flex justify-content-center"
+                          style="font-size: 17px; padding-top: 2px; padding-right: 15px; padding-bottom: 2px"
+                          aria-hidden="true" (click)="removeFlower(i)"></i>
+                      </div>
+                      <div class="col-sm-6 nopadding">
+                        {{flower.flower.name}}
+                      </div>
+                      <div class="col-sm-5 d-flex justify-content-center">
+                        {{flower.quantity}}
+                      </div>
+                    </div>
+                    <div class="row rowpadding" *ngFor="let item of items; let i = index">
+                        <div class="col-sm-1 nopadding d-flex flex-row-reverse">
+                          <i class="fa fa-trash d-flex justify-content-center"
+                            style="font-size: 17px; padding-top: 2px; padding-right: 15px; padding-bottom: 2px"
+                            aria-hidden="true" (click)="removeItem(i)"></i>
+                        </div>
+                        <div class="col-sm-6 nopadding">
+                          {{item.item.name}}
+                        </div>
+                        <div class="col-sm-5 d-flex justify-content-center">
+                          {{item.quantity}}
+                        </div>
+                      </div>
+
+
+                  </div>
+                  <div class="row w3-blue heading d-flex flex-row-reverse">
+                    <div style="margin-right: 15px">
+                      Ingridiant Fee: {{totalFee | number}} &#8363;
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!--Ingridiant Flower-->
+                    <div class="col-sm-6">
+                        <form #flowerForm="ngForm" autocomplete="off" style="margin-top: 5px">
+                            <div class="row">
+                              <div class="form-group col-sm-6">
+                                <label>Flower</label>
+                                <input type="text" class="form-control" (keyup)="findFlower($event)" (blur)="resetFlower()"
+                                  name="flower" #flower="ngModel" [(ngModel)]="flowerNameDisplay" required />
+
+                                <div class="autocomplete scrollbar-primary">
+                                  <div class="form-control w3-hover-blue" *ngFor="let flower of searchFlowerList; let i = index"
+                                    (click)="chooseFlower(flower)">
+                                    {{flower.name}}
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="form-group col-sm-6">
+                                <label>Quantity</label>
+                                <input type="number" class="form-control" min="1" onKeyDown="return false"
+                                  required name="quantity" #quantity="ngModel"
+                                  [(ngModel)]="flowerQuantity" />
+
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                              <button type="button" class="btn btn-info" (click)="addFlower()"
+                                [disabled]="!flowerForm.form.valid || (flower.quantity == 0 )">Add</button>
+                            </div>
+                          </form>
+                    </div>
+                    <!--Ingridiant Item-->
+                    <div class="col-sm-6">
+                        <form #itemForm="ngForm" autocomplete="off" style="margin-top: 5px">
+                            <div class="row">
+                              <div class="form-group col-sm-6">
+                                <label>Item</label>
+                                <input type="text" class="form-control" (keyup)="findItem($event)" (blur)="resetItem()"
+                                  name="flower" #flower="ngModel" [(ngModel)]="itemNameDisplay" required />
+
+                                <div class="autocomplete scrollbar-primary">
+                                  <div class="form-control w3-hover-blue" *ngFor="let item of searchItemList; let i = index"
+                                    (click)="chooseItem(item)">
+                                    {{item.name}}
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="form-group col-sm-6">
+                                <label>Quantity</label>
+                                <input type="number" class="form-control" min="1" onKeyDown="return false"
+                                  required name="quantity" #quantity="ngModel"
+                                  [(ngModel)]="item.quantity" />
+
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                              <button type="button" class="btn btn-info" (click)="addItem()"
+                                [disabled]="!itemForm.form.valid || (item.quantity == 0 )">Add</button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="col-sm-6">
+          <h4><span class="badge badge-pill badge-success" *ngIf="requestStatus == 201">success</span></h4>
+          <h4><span class="badge badge-pill badge-danger" *ngIf="requestStatus == 500">fail</span></h4>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end" style="padding: 0px">
+          <button type="button" class="btn btn-success" (click)="onSubmit(productForm)"
+            [disabled]="!productForm.form.valid || (requestStatus ==1) || isOverSize">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+              *ngIf="requestStatus == 1"></span>
+            <span *ngIf="requestStatus == 0">Add</span>
+            <span *ngIf="requestStatus == 201">Continue</span>
+          </button>
+          <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

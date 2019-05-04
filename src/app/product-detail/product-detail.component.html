@@ -1,0 +1,56 @@
+<div class="">
+  <div class="modal-xl modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{product.productName}}</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="modal-body">
+              <div class="d-flex justify-content-center">
+                <img src="{{product.imageUrl}}" height="200px" height="200px" />
+              </div>
+              <div class="d-flex justify-content-end">
+                <p class="badge badge-success">{{product.price | number}} VND</p>
+              </div>
+              <div>
+                <fieldset>
+                  <legend>
+                    <h5>Contain</h5>
+                  </legend>
+                  <div class="modal-body">
+                    <div *ngFor="let flower of product.flowers">
+                      {{flower.flower.name}} x {{flower.quantity}}
+                    </div>
+                    <div *ngFor="let item of product.items">
+                      {{item.item.name}} x {{item.quantity}}
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>
+                    <h5>Description</h5>
+                  </legend>
+                  <div class="modal-body">{{product.productDescription}}</div>
+                </fieldset>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>Comment</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="addToCart()">Add to Cart</button>
+      </div>
+
+    </div>
+  </div>
+</div>

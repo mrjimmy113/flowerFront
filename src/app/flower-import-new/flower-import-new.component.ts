@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { FlowerImportDetail } from "./../models/flowerImportDetail";
 import { FlowerImport } from "./../models/flowerImport";
 import { FlowerService } from "./../service/flower.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output,EventEmitter } from "@angular/core";
 import { ModalService } from "../service/modal.service";
 import { Flower } from "../models/flower";
 
@@ -13,6 +13,7 @@ import { Flower } from "../models/flower";
   styleUrls: ["./flower-import-new.component.css"]
 })
 export class FlowerImportNewComponent implements OnInit {
+  @Output() outputs = new EventEmitter<any>();
   requestStatus;
   flowerImport: FlowerImport;
   flowerList = new Array<Flower>();
@@ -27,11 +28,12 @@ export class FlowerImportNewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.flowerSer.findAll().subscribe(result => (this.flowerList = result));
+    this.flowerSer.getAll().subscribe(result => (this.flowerList = result));
     this.initNewImport();
   }
 
   closeModal() {
+    this.outputs[0]();
     this.modalSer.destroy();
   }
 
