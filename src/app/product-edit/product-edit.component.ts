@@ -38,6 +38,7 @@ export class ProductEditComponent implements OnInit {
   itemNameDisplay;
   totalFee;
   flowerQuantity;
+  wrongPrice = false;
   constructor(
     private modalSer: ModalService,
     private eventSer: EventService,
@@ -57,14 +58,19 @@ export class ProductEditComponent implements OnInit {
     this.requestStatus = 0;
     this.totalFee = 0;
     this.product = this.inputs;
-    console.log(this.product.event);
     this.productSer.getFlowers(this.product.productId).subscribe(result => {
       this.product.flowers = result;
       this.flowers = result;
+      result.forEach(element => {
+        this.totalFee += Number(element.flower.price) * Number(element.quantity);
+      });
     });
     this.productSer.getItems(this.product.productId).subscribe(result => {
       this.product.items = result;
       this.items = result;
+      result.forEach(element => {
+        this.totalFee += Number(element.item.price) * Number(element.quantity);
+      });
     });
     this.flower = new ProductFlower();
     this.item = new ProductItem();
@@ -106,8 +112,24 @@ export class ProductEditComponent implements OnInit {
     this.searchItemList = null;
   }
   addItem() {
-    this.items.push(this.item);
+    let duplicate = false;
+    this.totalFee += Number(this.item.quantity) * Number(this.item.item.price);
+    this.items.forEach(element => {
+      if(element.item.id == this.item.item.id) {
+        duplicate = true;
+        element.quantity = Number(element.quantity)  + Number(this.item.quantity);
+        return false;
+      }
+    });
+    if(!duplicate) this.items.push(this.item);
     this.item = new ProductItem();
+    this.itemNameDisplay = "";
+    this.checkPrice();
+  }
+  removeItem(index) {
+    this.totalFee -= Number(this.items[index].quantity) * Number(this.items[index].item.price);
+    this.items.splice(index,1);
+    this.checkPrice();
   }
   //#endregion
 
@@ -131,21 +153,48 @@ export class ProductEditComponent implements OnInit {
     this.searchFlowerList = null;
   }
   addFlower() {
+    let duplicate = false;
+    this.totalFee += this.flowerQuantity * Number(this.flower.flower.price);
+    this.flowers.forEach(element => {
+      if(element.flower.id == this.flower.flower.id) {
+        duplicate = true;
+        element.quantity = Number(element.quantity)  + Number(this.flowerQuantity);
+        return false;
+      }
+    });
     this.flower.quantity = this.flowerQuantity;
-    this.flowers.push(this.flower);
-    this.flowerQuantity = null;
+    if(!duplicate) this.flowers.push(this.flower);
+    this.flowerQuantity = 0;
     this.flower = new ProductFlower();
+    this.flowerNameDisplay = "";
+    this.checkPrice();
+  }
+  removeFlower(index) {
+    this.totalFee -= Number(this.flowers[index].quantity) * Number(this.flowers[index].flower.price);
+    this.flowers.splice(index,1);
+    this.checkPrice();
   }
   //#endregion
 
   onSubmit() {
+    this.requestStatus = 1;
     this.product.flowers = this.flowers;
     this.product.items = this.items;
     let fd = new FormData();
     console.log(this.product)
     fd.append("file",this.tmp);
     fd.append("product", JSON.stringify(this.product));
-    this.productSer.update(fd).subscribe();
+    this.productSer.update(fd).subscribe(result => {
+      if(result == 200) {
+        alert("Product Updated");
+        this.modalSer.destroy();
+      }
+    });
   }
+  checkPrice() {
+    if(this.totalFee > this.product.price) this.wrongPrice = true;
+    else this.wrongPrice = false;
+  }
+
 
 }

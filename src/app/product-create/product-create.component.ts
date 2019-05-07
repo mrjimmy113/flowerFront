@@ -1,13 +1,14 @@
-import { ProductService } from './../service/product.service';
-import { ProductItem } from './../models/productItem';
-import { ProductFlower } from './../models/productFlower';
-import { Product } from './../models/product';
+import { NgForm } from '@angular/forms';
+import { ProductService } from "./../service/product.service";
+import { ProductItem } from "./../models/productItem";
+import { ProductFlower } from "./../models/productFlower";
+import { Product } from "./../models/product";
 import { ItemService } from "./../service/item.service";
 import { FlowerService } from "./../service/flower.service";
 import { EventService } from "./../service/event.service";
 import { ModalService } from "./../service/modal.service";
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 @Component({
   selector: "app-product-create",
@@ -23,10 +24,10 @@ export class ProductCreateComponent implements OnInit {
   dump;
   tmp;
   previewImage;
-  product :Product;
-  flowers : ProductFlower[];
-  items : ProductItem[];
-  flowerList
+  product: Product;
+  flowers: ProductFlower[];
+  items: ProductItem[];
+  flowerList;
   itemList;
   eventList;
   searchFlowerList;
@@ -37,25 +38,33 @@ export class ProductCreateComponent implements OnInit {
   itemNameDisplay;
   totalFee;
   flowerQuantity;
+  wrongPrice = false;
   constructor(
     private modalSer: ModalService,
     private eventSer: EventService,
     private flowerSer: FlowerService,
     private itemSer: ItemService,
-    private productSer:ProductService
+    private productSer: ProductService
   ) {}
 
   ngOnInit() {
     this.initNewProduct();
-    this.eventSer.findAll().subscribe(result => {this.eventList = result; console.log(result)});
-    this.flowerSer.getAll().subscribe(result => {this.flowerList = result});
-    this.itemSer.getAll().subscribe(result => {this.itemList = result});
+    this.eventSer.findAll().subscribe(result => {
+      this.eventList = result;
+    });
+    this.flowerSer.getAll().subscribe(result => {
+      this.flowerList = result;
+    });
+    this.itemSer.getAll().subscribe(result => {
+      this.itemList = result;
+    });
   }
 
   initNewProduct() {
     this.requestStatus = 0;
     this.totalFee = 0;
     this.product = new Product();
+    this.product.productDescription = "";
     this.flowers = new Array();
     this.items = new Array();
     this.flower = new ProductFlower();
@@ -98,8 +107,26 @@ export class ProductCreateComponent implements OnInit {
     this.searchItemList = null;
   }
   addItem() {
-    this.items.push(this.item);
+    let duplicate = false;
+    this.totalFee += Number(this.item.quantity) * Number(this.item.item.price);
+    this.items.forEach(element => {
+      if (element.item.id == this.item.item.id) {
+        duplicate = true;
+        element.quantity =
+          Number(element.quantity) + Number(this.item.quantity);
+        return false;
+      }
+    });
+    if (!duplicate) this.items.push(this.item);
     this.item = new ProductItem();
+    this.itemNameDisplay = "";
+    this.checkPrice();
+  }
+  removeItem(index) {
+    this.totalFee -=
+      Number(this.items[index].quantity) * Number(this.items[index].item.price);
+    this.items.splice(index, 1);
+    this.checkPrice();
   }
   //#endregion
 
@@ -123,24 +150,54 @@ export class ProductCreateComponent implements OnInit {
     this.searchFlowerList = null;
   }
   addFlower() {
+    let duplicate = false;
+    this.totalFee += this.flowerQuantity * Number(this.flower.flower.price);
+    this.flowers.forEach(element => {
+      if (element.flower.id == this.flower.flower.id) {
+        duplicate = true;
+        element.quantity =
+          Number(element.quantity) + Number(this.flowerQuantity);
+        return false;
+      }
+    });
     this.flower.quantity = this.flowerQuantity;
-    this.flowers.push(this.flower);
-    this.flowerQuantity = null;
+    if (!duplicate) this.flowers.push(this.flower);
+    this.flowerQuantity = 0;
     this.flower = new ProductFlower();
+    this.flowerNameDisplay = "";
+    this.checkPrice();
+  }
+
+  removeFlower(index) {
+    this.totalFee -=
+      Number(this.flowers[index].quantity) *
+      Number(this.flowers[index].flower.price);
+    this.flowers.splice(index, 1);
+    this.checkPrice();
   }
   //#endregion
 
-  onSubmit() {
-    console.log("create");
-    let today = new Date();
-    today.setHours(0,0,0,0);
-    this.product.created = today;
-    this.product.flowers = this.flowers;
-    this.product.items = this.items;
-    let fd = new FormData();
-    fd.append("file",this.tmp);
-    fd.append("product", JSON.stringify(this.product));
-    this.productSer.hello(fd).subscribe();
+  onSubmit(productForm:NgForm) {
+    if (this.requestStatus == 200) {
+      this.initNewProduct();
+      this.requestStatus = 0;
+      productForm.resetForm();
+    } else {
+      this.requestStatus ==1;
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+      this.product.created = today;
+      this.product.flowers = this.flowers;
+      this.product.items = this.items;
+      let fd = new FormData();
+      fd.append("file", this.tmp);
+      fd.append("product", JSON.stringify(this.product));
+      this.productSer.hello(fd).subscribe();
+    }
   }
 
+  checkPrice() {
+    if (this.totalFee > this.product.price) this.wrongPrice = true;
+    else this.wrongPrice = false;
+  }
 }

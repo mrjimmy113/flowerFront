@@ -27,7 +27,7 @@
               <div class="form-group">
                 <label>Event</label>
                 <select class="form-control" [(ngModel)]="product.event" name="eventId" #eventId="ngModel">
-                  <option *ngFor="let event of eventList" [ngValue]="event">
+                  <option *ngFor="let event of eventList" [ngValue]="event" [selected]="product.event.id == event.id">
                     {{event.name}}
                   </option>
                 </select>
@@ -38,6 +38,7 @@
 
                   <input type="number" class="form-control" placeholder="Fill in product price" name="price"
                     [(ngModel)]="product.price" required #price='ngModel' pattern="^[1-9]?[0-9]{1,9}$"
+                    (keyup)="checkPrice()"
                     [ngClass]="{'is-invalid': (price.invalid && (price.dirty || price.touched))}">
                   <div class="input-group-append">
                     <span class="input-group-text">VNĐ</span>
@@ -215,7 +216,7 @@
             [disabled]="!productForm.form.valid || (requestStatus ==1) || isOverSize">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
               *ngIf="requestStatus == 1"></span>
-            <span *ngIf="requestStatus == 0">Add</span>
+            <span *ngIf="requestStatus == 0">Update</span>
             <span *ngIf="requestStatus == 201">Continue</span>
           </button>
           <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
