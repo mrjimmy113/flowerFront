@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Order } from './../models/order';
 import { OrderService } from './../service/order.service';
 import { CartService } from './../service/cart.service';
@@ -12,7 +13,7 @@ export class CartComponent implements OnInit {
   detailList;
   total = 0;
   order : Order;
-  constructor(private cartSer:CartService, private orderSer:OrderService) { }
+  constructor(private cartSer:CartService, private orderSer:OrderService,private route:Router) { }
 
   ngOnInit() {
     this.order = new Order();
@@ -50,6 +51,16 @@ export class CartComponent implements OnInit {
     let order = this.order;
     let details = this.cartSer.getCart();
     order.detail = details;
-    this.orderSer.create(order).subscribe();
+    this.orderSer.create(order).subscribe(result => {
+      if(result == 200) {
+        alert("Sucessfully placed an order");
+        this.route.navigateByUrl("/");
+        this.cartSer.clearCart();
+      }
+      if(result == 202) {
+        alert("Sorry, some of the product you purchase is out of stock");
+      }
+
+    });
   }
 }

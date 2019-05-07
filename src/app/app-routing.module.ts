@@ -1,3 +1,7 @@
+import { ForgetPassComponent } from './forget-pass/forget-pass.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SearchComponent } from './search/search.component';
+import { OrderComponent } from './order/order.component';
 import { CartComponent } from './cart/cart.component';
 import { AccountRegComponent } from './account-reg/account-reg.component';
 import { AccountComponent } from './account/account.component';
@@ -21,10 +25,14 @@ const routes: Routes = [
   { path: "admin/product", component:ProductComponent},
   { path: "admin/banner", component:BannerComponent},
   { path: "admin/account", component:AccountComponent},
+  { path: "admin/order", component:OrderComponent},
   { path: "login", component:LoginComponent},
   { path: "reg", component:AccountRegComponent},
   { path: "cart", component:CartComponent},
-  { path: "", component:HomeComponent}
+  { path: "", component:HomeComponent},
+  { path: "search", component:SearchComponent},
+  { path: "profile", component:ProfileComponent},
+  { path: "forget", component:ForgetPassComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

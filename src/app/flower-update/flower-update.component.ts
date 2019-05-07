@@ -1,3 +1,4 @@
+import { EventService } from './../service/event.service';
 import { FlowerService } from "./../service/flower.service";
 import { ModalService } from "./../service/modal.service";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
@@ -17,12 +18,15 @@ export class FlowerUpdateComponent implements OnInit {
   isOverSize = false;
   dump;
   previewImage;
+  eventList;
   constructor(
     private modalSer: ModalService,
-    private flowerSer: FlowerService
+    private flowerSer: FlowerService,
+    private eventSer: EventService
   ) {}
 
   ngOnInit() {
+    this.eventSer.findAll().subscribe(result => this.eventList = result);
     this.flower = this.inputs;
   }
 

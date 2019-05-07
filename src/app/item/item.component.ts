@@ -31,12 +31,12 @@ export class ItemComponent implements OnInit {
     this.modalSer.init(ItemSaveComponent, item, [() => this.getAll()]);
   }
   delete(id) {
-    this.itemSer.delete(id).subscribe(
-      result => {
-        if(result == 200) this.getAll();
-        if((result == 400) || (result == 500)) alert("Error");
-      }
-    );
+    if (confirm("Do you really want to delete this")) {
+      this.itemSer.delete(id).subscribe(result => {
+        if (result == 200) this.getAll();
+        if (result == 400 || result == 500) alert("Error");
+      });
+    }
   }
   sort(property) {
     if (this.isSort == property) {

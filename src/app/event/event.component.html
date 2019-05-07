@@ -4,16 +4,19 @@
 <div class="list-group" style="margin-top: 15px">
   <!--Heading-->
   <div class="list-group-item w3-indigo">
-      <div class="row">
-          <div class="row col-sm-10">
-            <div class="col-sm-5 d-flex align-items-center">
-              Event Name
-            </div>
-          </div>
-          <div class="col-sm-2 d-flex align-items-center justify-content-center">
-              Operation
-          </div>
+    <div class="row">
+      <div class="row col-sm-10">
+        <div class="col-sm-5 d-flex align-items-center">
+          Event Name
         </div>
+      </div>
+      <div class="col-sm-2 d-flex align-items-center justify-content-center">
+        Operation
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center" *ngIf="eventList.length == 0">
+    <h4>No record found</h4>
   </div>
   <!--Row-->
   <div class="card" *ngFor="let event of eventList; let i = index">

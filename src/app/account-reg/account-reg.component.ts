@@ -13,6 +13,8 @@ export class AccountRegComponent implements OnInit {
   confirmPassword;
   isAccountExisted = true;
   haveNotChecked = true;
+  isEmailExisted = true;
+  haveNotCheckedEmail = true;
   constructor(private service:AccService, private route:Router) { }
 
   ngOnInit() {
@@ -36,6 +38,18 @@ export class AccountRegComponent implements OnInit {
   checkUsernameAgain() {
       if(!this.haveNotChecked) {
         this.haveNotChecked = true;
+      }
+  }
+  checkEmail(email) {
+    this.haveNotCheckedEmail = false;
+    this.service.checkEmail(this.account.email).subscribe(result => {
+      this.isEmailExisted = result;
+    })
+
+  }
+  checkEmailAgain() {
+      if(!this.haveNotCheckedEmail) {
+        this.haveNotCheckedEmail = true;
       }
   }
 

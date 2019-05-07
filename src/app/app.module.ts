@@ -36,7 +36,10 @@ import { AccountRegComponent } from './account-reg/account-reg.component';
 import { CartComponent } from './cart/cart.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { OrderShipmentComponent } from './order-shipment/order-shipment.component';
-
+import {SlideshowModule} from 'ng-simple-slideshow';
+import { OrderComponent } from './order/order.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ForgetPassComponent } from './forget-pass/forget-pass.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +72,9 @@ import { OrderShipmentComponent } from './order-shipment/order-shipment.componen
     CartComponent,
     ProductDetailComponent,
     OrderShipmentComponent,
+    OrderComponent,
+    ProfileComponent,
+    ForgetPassComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +82,7 @@ import { OrderShipmentComponent } from './order-shipment/order-shipment.componen
     HttpClientModule,
     AppRoutingModule,
     CKEditorModule,
+    SlideshowModule,
   ],
   entryComponents: [
     FlowerCreateComponent,

@@ -19,6 +19,7 @@ export class AccountComponent implements OnInit {
     private ultisSer: UltisService) { }
 
   ngOnInit() {
+    this.itemList = new Array<Account>();
     this.getAll();
   }
   sort(property) {
@@ -55,10 +56,12 @@ export class AccountComponent implements OnInit {
     });
   }
   delete(id) {
-    this.itemSer.delete(id).subscribe(result => {
-      if(result == 200) this.getAll();
-      if(result == 400 || result == 500) alert("Error");
-    })
+    if(confirm("Do you really want to delete this")) {
+      this.itemSer.delete(id).subscribe(result => {
+        if(result == 200) this.getAll();
+        if(result == 400 || result == 500) alert("Error");
+      })
+    }
   }
 
 }

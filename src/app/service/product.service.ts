@@ -37,4 +37,13 @@ export class ProductService {
   getDetail(id):Observable<Product>{
     return this.http.get<Product>(this.api + "/" + id);
   }
+  searchBy(event,flower):Observable<any> {
+    return this.http.get<any>(this.api + `/searchBy?event=${event}&flower=${flower}`);
+  }
+  searchByPage(event,flower,pageNum):Observable<Product[]> {
+    return this.http.get<any>(this.api + `/searchByPage?event=${event}&flower=${flower}&pageNum=${pageNum}`);
+  }
+  newestProduct():Observable<Product[]> {
+    return this.http.get<Product[]>(this.api + "/newest");
+  }
 }

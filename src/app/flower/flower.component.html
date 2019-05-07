@@ -1,6 +1,6 @@
-<h2>item</h2>
+<h2>flower</h2>
 
-<button class="btn btn-success" (click)="openCreate()">New item</button>
+<button class="btn btn-success" (click)="openCreate()">New Flower</button>
 <div class="d-flex justify-content-end">
   <div class="form-inline">
     <div class="input-group mb-3">
@@ -21,7 +21,7 @@
       <div class="row col-sm-10">
 
         <div class="col-sm-5 d-flex align-items-center clickable" (click)="sort('name')">
-          Item name <i class="fas fa-sort icon"></i>
+          Flower name <i class="fas fa-sort icon"></i>
         </div>
         <div class="col-sm-2 d-flex align-items-center clickable" (click)="sort('stock')">
 
@@ -39,9 +39,13 @@
     </div>
   </div>
   <!--Row-->
+  <div class="d-flex justify-content-center" *ngIf="itemList.length == 0">
+    <h4>No record found</h4>
+  </div>
   <div class="card" *ngFor="let item of itemList; let i = index">
     <div class="list-group-item w3-hover-blue " [ngClass]="{'w3-light-grey': ((i % 2) == 1)}"
-      [ngClass]="{'w3-white': ((i % 2) == 0)}" style="border:none" >
+      [ngClass]="{'w3-white': ((i % 2) == 0)}" style="border:none">
+
       <div class="row">
         <div class="row col-sm-10">
 
@@ -50,7 +54,7 @@
           </div>
           <div class="col-sm-2 d-flex align-items-center">
 
-            Còn: {{item.stock}}
+            Còn: {{item.quantity}}
 
           </div>
           <div class="col-sm-2 d-flex align-items-center">

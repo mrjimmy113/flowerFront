@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-center">
+  <h2>Recovery Password</h2>
+</div>
+<div class="d-flex justify-content-center">
+  <form #forgetForm="ngForm">
+    <div class="form-group">
+      <div>
+        <input type="text" class="form-control" name="email" #email='ngModel' style="width: 400px"
+          placeholder="Enter your email to retrieve your password" [(ngModel)]="emailRecovery" required
+          pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+          [ngClass]="{'is-invalid': (email.invalid && (email.dirty || email.touched))}">
+
+      </div>
+    </div>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger d-flex justify-content-center">
+        <div *ngIf="email.errors.required">
+          Email is required.
+        </div>
+        <div *ngIf="email.errors.pattern">
+          Email is not valid
+        </div>
+      </div>
+  </form>
+</div>
+<div class="d-flex justify-content-center" style="padding-top: 20px">
+    <button class="btn btn-success" (click)="recovery()">Recovery</button>
+</div>
+<div class="d-flex justify-content-center" *ngIf="isSubmit">
+  <div *ngIf="res" class="text-success">Please check your email for the recovery password</div>
+  <div *ngIf="!res" class="text-danger">We can not found your email</div>
+</div>

@@ -17,11 +17,11 @@ export class LoginComponent implements OnInit {
   }
   onSubmit() {
     this.authSer.login(this.account).subscribe(result => {
-      if(result.tokenValue == "") {
+      if(result.tokenValue == null) {
         alert("Login failed");
       }else {
-        this.authSer.setToken(result.tokenValue);
-        this.route.navigateByUrl("/");
+        this.authSer.setToken(result);
+        window.location.pathname = "/";
       }
     });
 

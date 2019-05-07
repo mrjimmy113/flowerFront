@@ -8,16 +8,17 @@ import { Banner } from '../models/banner';
   providedIn: 'root'
 })
 export class BannerService {
-  private api = environment.apiEndPoint + "admin/banner";
+  private api = environment.apiEndPoint + "";
+  private apiName = "banner";
   constructor(private http:HttpClient) { }
 
   create(banner):Observable<Number> {
-    return this.http.post<Number>(this.api,banner);
+    return this.http.post<Number>(this.api + "admin/" +this.apiName,banner);
   }
-  getAll():Observable<Banner> {
-    return this.http.get<Banner>(this.api);
+  getAll():Observable<Banner[]> {
+    return this.http.get<Banner[]>(this.api + this.apiName);
   }
   delete(id):Observable<Number> {
-    return this.http.delete<Number>(this.api + "/" + id);
+    return this.http.delete<Number>(this.api + "admin/" +this.apiName + "/" + id);
   }
 }

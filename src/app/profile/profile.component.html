@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8 modal-body">
+    <div class="d-flex justify-content-center">
+      <h2>Profile page</h2>
+    </div>
+    <div class="row">
+      <div class="col-sm-5" style="padding-top: 32px">
+        <div class="list-group">
+          <button [ngClass]="{'active': (currentTab == 1)}" class="list-group-item list-group-item-action"
+            (click)="changeTab(1)">
+            Account Information
+          </button>
+          <button [ngClass]="{'active': (currentTab == 2)}" class="list-group-item list-group-item-action"
+            (click)="changeTab(2)">
+            Change Password
+          </button>
+          <a *ngIf="role == 'ADMIN'" class="list-group-item list-group-item-action" href="/admin/account">
+            Go to Admin Page
+          </a>
+
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <form #accForm="ngForm" *ngIf="currentTab == 1">
+          <fieldset>
+            <legend>Account Information</legend>
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="account.name"
+                [ngClass]="{'is-invalid': (name.invalid && (name.dirty || name.touched))}" required />
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+                <div *ngIf="name.errors.required">
+                  Please fill in First name
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" class="form-control" name="surname" #surname="ngModel" [(ngModel)]="account.surname"
+                [ngClass]="{'is-invalid': (surname.invalid && (surname.dirty || surname.touched))}" required />
+              <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="text-danger">
+                <div *ngIf="surname.errors.required">
+                  Please fill in Last name
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" class="form-control" name="telephone" #telephone='ngModel'
+                placeholder="Enter Phone number" [(ngModel)]="account.telephone" required maxlength="15"
+                pattern="[0-9]*"
+                [ngClass]="{'is-invalid': (telephone.invalid && (telephone.dirty || telephone.touched))}">
+              <div *ngIf="telephone.invalid && (telephone.dirty || telephone.touched)" class="text-danger">
+                <div *ngIf="telephone.errors.required">
+                  Phone Number is required.
+                </div>
+                <div *ngIf="telephone.errors.maxlength">
+                  Phone Number max length is 15
+                </div>
+                <div *ngIf="telephone.errors.pattern">
+                  Phone Number must be number
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" class="form-control" name="address" #address="ngModel" [(ngModel)]="account.address"
+                [ngClass]="{'is-invalid': (address.invalid && (address.dirty || address.touched))}" required />
+              <div *ngIf="address.invalid && (address.dirty || address.touched)" class="text-danger">
+                <div *ngIf="address.errors.required">
+                  Please fill in Address
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-success" (click)="changeInfor()" [disabled]="!accForm.form.valid">Change
+                Infor</button>
+            </div>
+          </fieldset>
+        </form>
+        <form #passForm="ngForm">
+          <fieldset class="modal-body" *ngIf="currentTab == 2">
+            <legend>Change Password</legend>
+            <div class="form-group">
+              <label>Old Password</label>
+              <input type="password" class="form-control" name="oldP" #oldP='ngModel' placeholder="Enter old password"
+                [(ngModel)]="oldPass" required maxlength="20" minlength="4"
+                [ngClass]="{'is-invalid': (oldP.invalid && (oldP.dirty || oldP.touched))}">
+              <div *ngIf="oldP.invalid && (oldP.dirty || oldP.touched)" class="text-danger">
+                <div *ngIf="oldP.errors.required">
+                  Old Password is required.
+                </div>
+                <div *ngIf="oldP.errors.maxlength || oldP.errors.minlength">
+                  Old Password length is from 4 to 30
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" class="form-control" name="newP" #newP='ngModel' placeholder="Enter new password"
+                [(ngModel)]="newPass" required maxlength="20" minlength="4"
+                [ngClass]="{'is-invalid': (newP.invalid && (newP.dirty || newP.touched))}">
+              <div *ngIf="newP.invalid && (newP.dirty || newP.touched)" class="text-danger">
+                <div *ngIf="newP.errors.required">
+                  New Password is required.
+                </div>
+                <div *ngIf="newP.errors.maxlength || newP.errors.minlength">
+                  New Password length is from 4 to 30
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input type="password" class="form-control" name="confirm" #confirm='ngModel'
+                placeholder="Enter Password again" pattern="{{newPass}}" [(ngModel)]="confirmPassword" required
+                [ngClass]="{'is-invalid': (confirm.invalid && (confirm.dirty || confirm.touched))}">
+              <div *ngIf="confirm.invalid && (confirm.dirty || confirm.touched)" class="text-danger">
+                <div *ngIf="confirm.errors.pattern">
+                  Confirm Password and New Password must be the same
+                </div>
+                <div *ngIf="confirm.errors.required">
+                  Confirm Password and New Password must be the same
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-success" (click)="changePassword()" [disabled]='!passForm.form.valid'>Change
+                Password</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-sm-2"></div>
+
+</div>

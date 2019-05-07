@@ -33,4 +33,7 @@ export class ItemService {
   search(searchTerm):any {
     return this.http.get<any>(this.api + "?searchTerm=" + searchTerm);
   }
+  findOne(id):Observable<Item> {
+    return this.http.get<Item>(this.api + `/one?id=${id}`);
+  }
 }

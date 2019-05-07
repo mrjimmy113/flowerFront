@@ -1,3 +1,4 @@
+import { Flower } from './../models/flower';
 import { FlowerUpdateComponent } from './../flower-update/flower-update.component';
 import { FlowerCreateComponent } from './../flower-create/flower-create.component';
 import { ModalService } from './../service/modal.service';
@@ -23,6 +24,7 @@ export class FlowerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.itemList = new Array<Flower>();
     this.getAll();
   }
   openCreate() {

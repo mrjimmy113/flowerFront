@@ -38,4 +38,7 @@ export class FlowerService {
   delete(id): Observable<Number> {
     return this.http.delete<Number>(this.api + "/" + id);
   }
+  findOne(id):Observable<Flower> {
+    return this.http.get<Flower>(this.api + `/one?id=${id}`);
+  }
 }

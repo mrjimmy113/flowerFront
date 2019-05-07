@@ -18,17 +18,19 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem(this.token);
   }
-  getToken() {
-    return localStorage.getItem(this.token);
+  getToken():Token {
+    return JSON.parse(localStorage.getItem(this.token));
   }
   setToken(token) {
-    localStorage.setItem(this.token,token);
+    localStorage.setItem(this.token,JSON.stringify(token));
   }
   getAuthHeader() {
-    let header = {
+    console.log("Chết mọe Kiều Trọng Khánh");
+    var header = {
       headers: new HttpHeaders()
-        .set('Authorization',  this.getToken())
+        .set('Authorization', 'Bearer ' +  "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJleHAiOjE1NTcyMjA3OTgsInVzZXJuYW1lIjoiYWRtaW4ifQ.bHmDTQR7ZaSZmkmxeDv3XB9qc9MiyZ1fgCPTrI_IpWg")
     }
+
     return header;
   }
 }
