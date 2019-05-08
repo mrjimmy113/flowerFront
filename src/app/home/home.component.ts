@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
     this.bannerList = new Array<String>();
     this.imageList = new Array<String>();
     this.productSer.newestProduct().subscribe(result => {
+      console.log(result);
       this.productList = result;
     });
     this.bannerSer.getAll().subscribe(result => {

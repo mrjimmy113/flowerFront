@@ -8,7 +8,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">From</span>
           </div>
-          <input type="date" class="form-control" [(ngModel)]="from" >
+          <input type="date" class="form-control" [(ngModel)]="from"  max="{{todate | date:'yyyy-MM-dd'}}">
         </div>
       </div>
       <div class="form-group">
@@ -16,7 +16,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">To</span>
           </div>
-          <input type="date" class="form-control" [(ngModel)]="to" value="{{to}}">
+          <input type="date" class="form-control" [(ngModel)]="to"   min="{{todate | date:'yyyy-MM-dd'}}">
         </div>
       </div>
       <div class="input-group mb-3">
@@ -32,19 +32,20 @@
   <!--Heading-->
   <div class="w3-indigo list-group-item">
     <div class="row">
-      <div class="row col-sm-10">
+      <div class="row col-sm-12">
 
-        <div class="col-sm-6 d-flex align-items-center clickable" (click)="sort('date')">
+        <div class="col-sm-2 d-flex align-items-center clickable" (click)="sort('date')">
           Import Date <i class="fas fa-sort icon"></i>
         </div>
-        <div class="col-sm-6 d-flex align-items-center clickable" (click)="sort('total')">
+        <div class="col-sm-2 d-flex align-items-center clickable" (click)="sort('total')">
           Total <i class="fas fa-sort icon"></i>
+        </div>
+        <div class="col-sm-8">
+          Content
         </div>
       </div>
 
-      <div class="col-sm-2 d-flex align-items-center justify-content-center">
-        Operation
-      </div>
+
     </div>
   </div>
   <!--Row-->
@@ -52,25 +53,22 @@
     <div class="list-group-item w3-hover-blue " [ngClass]="{'w3-light-grey': ((i % 2) == 1)}"
       [ngClass]="{'w3-white': ((i % 2) == 0)}" style="border:none">
       <div class="row">
-        <div class="row col-sm-10">
+        <div class="row col-sm-12">
 
-          <div class="col-sm-6 d-flex align-items-center">
+          <div class="col-sm-2 d-flex align-items-center">
             {{item.date | date}}
           </div>
-          <div class="col-sm-6 d-flex align-items-center">
+          <div class="col-sm-2 d-flex align-items-center">
             {{item.total | number}}&#8363;
           </div>
-        </div>
-
-        <div class="col-sm-2 d-flex align-items-center justify-content-center">
-          <div class="w3-dropdown-hover">
-            <i class="fas fa-pen "></i>
-            <div class="w3-dropdown-content w3-bar-block">
-              <button href="#" class="w3-bar-item btn btn-info" (click)="openEdit(item)">Edit</button>
-              <button href="#" class="w3-bar-item btn btn-danger" (click)="delete(item.id)">Xóa</button>
+          <div class="col-sm-8">
+            <div *ngFor="let detail of item.details">
+              Item: {{detail.item.name}} | Unit: {{detail.unitPrice | number}}&#8363; | Quantity: {{detail.quantity}}
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
 

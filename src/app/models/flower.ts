@@ -4,4 +4,5 @@ export class Flower {
   eventId:Number;
   imageUrl:String;
   price:Number;
+  quantity:Number;
 }

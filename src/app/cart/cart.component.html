@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center">
       <h3>Your cart</h3>
     </div>
-    <div *ngIf="detailList">
+    <div *ngIf="!(detailList.length == 0)">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -51,6 +51,7 @@
               <label>Shipped Date</label>
               <input type="date" class="form-control" name="shippedDate" #shippedDate='ngModel'
                 placeholder="Enter shippedDate" [(ngModel)]="order.shippedDate" required
+                min="{{todate | date:'yyyy-MM-dd'}}" onKeyDown="return false"
                 [ngClass]="{'is-invalid': (shippedDate.invalid && (shippedDate.dirty || shippedDate.touched))}">
               <div *ngIf="shippedDate.invalid && (shippedDate.dirty || shippedDate.touched)" class="text-danger">
                 <div *ngIf="shippedDate.errors.required">
@@ -83,7 +84,7 @@
         </div>
         <div class="col-sm-6 d-flex justify-content-center">
           <div class="" style="padding-top: 32px">
-              <button class="btn btn-success" (click)="checkOut()">Check Out</button>
+              <button class="btn btn-success" (click)="checkOut()" [disabled]="!orderForm.form.valid || placeOrder">Check Out</button>
           </div>
 
         </div>
@@ -91,9 +92,9 @@
     </div>
 
 
-    <div *ngIf="!detailList" class="d-flex justify-content-center ">
+    <div *ngIf="detailList.length == 0" class="d-flex justify-content-center ">
       <h4>Empty Cart</h4>
     </div>
   </div>
   <div class="col-sm-2"></div>
-</div>>
+</div>

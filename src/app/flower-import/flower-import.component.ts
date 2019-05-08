@@ -17,11 +17,12 @@ export class FlowerImportComponent implements OnInit {
   maxPage;
   from;
   to;
+  private todate = new Date();
   constructor(private modalSer:ModalService, private ultisSer:UltisService, private importSer:FlowerImportService, private datePipe:DatePipe) { }
 
   ngOnInit() {
     let date = new Date();
-    date.setHours(23,0,0,0);
+    date.setHours(23,59,59,999);
     this.from = new Date(date.getTime() - (1000 * 3600 * 24 * 30));
     this.to = this.datePipe.transform(date, 'yyyy-MM-dd');
     this.from = this.datePipe.transform(this.from, 'yyyy-MM-dd');
@@ -50,6 +51,7 @@ export class FlowerImportComponent implements OnInit {
     this.importSer.search(this.getTime(this.from), this.getTime(this.to)).subscribe(result => {
       this.itemList = result.list;
       this.maxPage = result.maxPage;
+      console.log(this.itemList);
     });
   }
   getTime(dateInString) {

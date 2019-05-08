@@ -1,3 +1,4 @@
+import { OrderDetail } from './../models/orderDetail';
 import { Router } from '@angular/router';
 import { Order } from './../models/order';
 import { OrderService } from './../service/order.service';
@@ -13,15 +14,18 @@ export class CartComponent implements OnInit {
   detailList;
   total = 0;
   order : Order;
+  placeOrder =false;
+  private todate = new Date();
   constructor(private cartSer:CartService, private orderSer:OrderService,private route:Router) { }
 
   ngOnInit() {
+    this.detailList = new Array<OrderDetail>();
     this.order = new Order();
     let tmp = this.cartSer.getCart();
     if(tmp) {
       this.detailList = tmp;
       this.detailList.forEach(element => {
-        this.total += element.total;
+        this.total += element.unit * element.quantity;
       });
     }
   }
@@ -43,7 +47,7 @@ export class CartComponent implements OnInit {
     this.cartSer.updateCart(this.detailList);
     this.detailList = this.cartSer.getCart();
     this.detailList.forEach(element => {
-      this.total += element.total;
+      this.total += element.unit * element.quantity;
     });
   }
 
@@ -51,16 +55,24 @@ export class CartComponent implements OnInit {
     let order = this.order;
     let details = this.cartSer.getCart();
     order.detail = details;
+    order.paymentType = "COD";
+    console.log(order);
+    this.placeOrder = true;
     this.orderSer.create(order).subscribe(result => {
       if(result == 200) {
         alert("Sucessfully placed an order");
-        this.route.navigateByUrl("/");
         this.cartSer.clearCart();
+        this.route.navigateByUrl("/");
+
       }
       if(result == 202) {
         alert("Sorry, some of the product you purchase is out of stock");
       }
 
     });
+  }
+  checkDate(event) {
+    console.log('clgt');
+    console.log(event);
   }
 }

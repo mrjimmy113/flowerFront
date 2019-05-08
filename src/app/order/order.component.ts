@@ -51,6 +51,7 @@ export class OrderComponent implements OnInit {
     this.orderSer.search(this.getTime(this.from), this.getTime(this.to)).subscribe(result => {
       this.itemList = result.list;
       this.maxPage = result.maxPage;
+      console.log(this.itemList);
     });
   }
   getTime(dateInString) {

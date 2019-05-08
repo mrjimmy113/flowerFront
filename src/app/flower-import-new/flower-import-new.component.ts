@@ -1,9 +1,9 @@
-import { FlowerImportService } from './../service/flower-import.service';
-import { NgForm } from '@angular/forms';
+import { FlowerImportService } from "./../service/flower-import.service";
+import { NgForm } from "@angular/forms";
 import { FlowerImportDetail } from "./../models/flowerImportDetail";
 import { FlowerImport } from "./../models/flowerImport";
 import { FlowerService } from "./../service/flower.service";
-import { Component, OnInit, Output,EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { ModalService } from "../service/modal.service";
 import { Flower } from "../models/flower";
 
@@ -24,7 +24,7 @@ export class FlowerImportNewComponent implements OnInit {
   constructor(
     private modalSer: ModalService,
     private flowerSer: FlowerService,
-    private importSer:FlowerImportService
+    private importSer: FlowerImportService
   ) {}
 
   ngOnInit() {
@@ -63,9 +63,11 @@ export class FlowerImportNewComponent implements OnInit {
     this.detail.flower = flower;
     this.searchFlowerList = null;
   }
-  onSubmit(detailForm:NgForm) {
+  onSubmit(detailForm: NgForm) {
     this.flowerImport.details.push(this.detail);
-    this.flowerImport.total = Number(this.flowerImport.total) + (Number(this.detail.unitPrice) * Number(this.detail.quantity));
+    this.flowerImport.total =
+      Number(this.flowerImport.total) +
+      Number(this.detail.unitPrice) * Number(this.detail.quantity);
     this.detail = new FlowerImportDetail();
     this.flowerName = "";
   }
@@ -73,7 +75,15 @@ export class FlowerImportNewComponent implements OnInit {
     this.flowerImport.details.splice(index, 1);
   }
   submitOrder() {
-    this.flowerImport.date = new Date();
-    this.importSer.create(this.flowerImport).subscribe(result => console.log(result));
+    if (confirm("Are you sure for this importing")) {
+      this.requestStatus = 1;
+      this.flowerImport.date = new Date();
+      this.importSer.create(this.flowerImport).subscribe(result => {
+        if (result == 200) {
+          alert("Import Flower Successfully");
+          this.closeModal();
+        }
+      });
+    }
   }
 }

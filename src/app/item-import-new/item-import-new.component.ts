@@ -1,15 +1,15 @@
-import { ItemImportService } from './../service/item-import.service';
-import { ItemService } from './../service/item.service';
-import { ItemImportDetail } from './../models/itemImportDetail';
-import { ItemImport } from './../models/itemImport';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Item } from '../models/item';
-import { ModalService } from '../service/modal.service';
+import { ItemImportService } from "./../service/item-import.service";
+import { ItemService } from "./../service/item.service";
+import { ItemImportDetail } from "./../models/itemImportDetail";
+import { ItemImport } from "./../models/itemImport";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Item } from "../models/item";
+import { ModalService } from "../service/modal.service";
 
 @Component({
-  selector: 'app-item-import-new',
-  templateUrl: './item-import-new.component.html',
-  styleUrls: ['./item-import-new.component.css']
+  selector: "app-item-import-new",
+  templateUrl: "./item-import-new.component.html",
+  styleUrls: ["./item-import-new.component.css"]
 })
 export class ItemImportNewComponent implements OnInit {
   @Output() outputs = new EventEmitter<any>();
@@ -23,7 +23,7 @@ export class ItemImportNewComponent implements OnInit {
   constructor(
     private modalSer: ModalService,
     private itemSer: ItemService,
-    private importSer:ItemImportService
+    private importSer: ItemImportService
   ) {}
 
   ngOnInit() {
@@ -64,7 +64,9 @@ export class ItemImportNewComponent implements OnInit {
   }
   onSubmit() {
     this.itemImport.details.push(this.detail);
-    this.itemImport.total = Number(this.itemImport.total) + (Number(this.detail.unitPrice) * Number(this.detail.quantity));
+    this.itemImport.total =
+      Number(this.itemImport.total) +
+      Number(this.detail.unitPrice) * Number(this.detail.quantity);
     this.detail = new ItemImportDetail();
     this.itemName = "";
   }
@@ -72,7 +74,17 @@ export class ItemImportNewComponent implements OnInit {
     this.itemImport.details.splice(index, 1);
   }
   submitOrder() {
-    this.itemImport.date = new Date();
-    this.importSer.create(this.itemImport).subscribe(result => console.log(result));
+    if (confirm("Are you sure for appling this import")) {
+      this.requestStatus = 1;
+      this.itemImport.date = new Date();
+      this.importSer
+        .create(this.itemImport)
+        .subscribe(result => {
+          if(result == 200) {
+            alert("Import Item Successfully");
+            this.closeModal();
+          }
+        });
+    }
   }
 }

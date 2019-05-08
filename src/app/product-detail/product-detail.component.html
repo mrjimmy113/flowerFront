@@ -1,5 +1,5 @@
 <div class="">
-  <div class="modal-xl modal-dialog" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{product.productName}}</h5>
@@ -10,7 +10,7 @@
 
       <div class="modal-body">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-12">
             <div class="modal-body">
               <div class="d-flex justify-content-center">
                 <img src="{{product.imageUrl}}" height="200px" height="200px" />
@@ -36,19 +36,21 @@
                   <legend>
                     <h5>Description</h5>
                   </legend>
-                  <div class="modal-body">{{product.productDescription}}</div>
+                  <div class="modal-body" [innerHTML]="product.productDescription"></div>
                 </fieldset>
 
               </div>
             </div>
           </div>
-          <div class="col-sm-6">
-            <label>Comment</label>
-          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success" (click)="addToCart()">Add to Cart</button>
+        <button class="btn btn-success" (click)="addToCart()" *ngIf="isSoldable">
+          Add to Cart
+        </button>
+        <button class="btn btn-danger" *ngIf="!isSoldable" disabled>
+          Out of stock
+        </button>
       </div>
 
     </div>
