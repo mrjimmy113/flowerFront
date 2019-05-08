@@ -77,8 +77,9 @@
           <div class="w3-dropdown-hover">
             <i class="fas fa-pen "></i>
             <div class="w3-dropdown-content w3-bar-block">
-              <button href="#" class="w3-bar-item btn btn-success" (click)="complete(item.orderId)">Complete</button>
-              <button href="#" class="w3-bar-item btn btn-danger" (click)="cancel(item.orderId)">Cancel</button>
+                <button class="w3-bar-item btn btn-info" (click)="showDetail(item.orderId)">Show Detail</button>
+              <button class="w3-bar-item btn btn-success" (click)="complete(item.orderId)">Complete</button>
+              <button class="w3-bar-item btn btn-danger" (click)="cancel(item.orderId)">Cancel</button>
             </div>
           </div>
         </div>

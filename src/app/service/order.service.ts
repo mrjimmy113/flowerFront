@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "./../../environments/environment";
 import { Injectable } from "@angular/core";
+import { OrderDetail } from '../models/orderDetail';
 
 @Injectable({
   providedIn: "root"
@@ -26,5 +27,8 @@ export class OrderService {
   }
   cancel(id):Observable<Number> {
     return this.http.put<Number>(this.api + `/cancel?id=${id}`,null);
+  }
+  getDetail(id):Observable<OrderDetail[]> {
+    return this.http.get<OrderDetail[]>(this.api + `/detail?id=${id}`);
   }
 }

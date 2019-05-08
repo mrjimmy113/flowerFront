@@ -39,6 +39,7 @@ export class ProductEditComponent implements OnInit {
   totalFee;
   flowerQuantity;
   wrongPrice = false;
+  productEventId;
   constructor(
     private modalSer: ModalService,
     private eventSer: EventService,
@@ -58,6 +59,7 @@ export class ProductEditComponent implements OnInit {
     this.requestStatus = 0;
     this.totalFee = 0;
     this.product = this.inputs;
+    this.productEventId = this.product.event.id;
     this.productSer.getFlowers(this.product.productId).subscribe(result => {
       this.product.flowers = result;
       this.flowers = result;
@@ -177,6 +179,11 @@ export class ProductEditComponent implements OnInit {
   //#endregion
 
   onSubmit() {
+    this.eventList.forEach(element => {
+      if(element.id == this.productEventId) {
+        this.product.event = element;
+      }
+    });
     this.requestStatus = 1;
     this.product.flowers = this.flowers;
     this.product.items = this.items;
@@ -187,7 +194,7 @@ export class ProductEditComponent implements OnInit {
     this.productSer.update(fd).subscribe(result => {
       if(result == 200) {
         alert("Product Updated");
-        this.modalSer.destroy();
+        this.closeModal();
       }
     });
   }
@@ -195,6 +202,8 @@ export class ProductEditComponent implements OnInit {
     if(this.totalFee > this.product.price) this.wrongPrice = true;
     else this.wrongPrice = false;
   }
+
+
 
 
 }

@@ -40,6 +40,7 @@ import {SlideshowModule} from 'ng-simple-slideshow';
 import { OrderComponent } from './order/order.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ForgetPassComponent } from './forget-pass/forget-pass.component';
+import { ShowOrderDetailComponent } from './show-order-detail/show-order-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,7 @@ import { ForgetPassComponent } from './forget-pass/forget-pass.component';
     OrderComponent,
     ProfileComponent,
     ForgetPassComponent,
+    ShowOrderDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,8 @@ import { ForgetPassComponent } from './forget-pass/forget-pass.component';
     ProductEditComponent,
     BannerSaveComponent,
     AccountSaveComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    ShowOrderDetailComponent
   ],
   providers: [DatePipe, {
     provide: HTTP_INTERCEPTORS,

@@ -1,3 +1,4 @@
+import { ShowOrderDetailComponent } from './../show-order-detail/show-order-detail.component';
 import { DatePipe } from '@angular/common';
 import { OrderService } from './../service/order.service';
 import { Component, OnInit } from "@angular/core";
@@ -60,9 +61,18 @@ export class OrderComponent implements OnInit {
     return date.getTime();
   }
   complete(id) {
-    this.orderSer.complete(id).subscribe();
+    this.orderSer.complete(id).subscribe(result => {
+      if(result == 200) alert("Order has been completed")
+    });
   }
   cancel(id) {
-    this.orderSer.cancel(id).subscribe();
+    this.orderSer.cancel(id).subscribe(result => {
+      if(result == 200) alert("Order has been completed")
+    });
+  }
+  showDetail(id) {
+    this.orderSer.getDetail(id).subscribe(result =>{
+      this.modalSer.init(ShowOrderDetailComponent,result,[]);
+    })
   }
 }

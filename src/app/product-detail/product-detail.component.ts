@@ -18,6 +18,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.inputs;
+    if(this.product.price == 0) this.isSoldable = false;
     this.product.flowers.forEach(element => {
       if(element.quantity > element.flower.quantity) {
         this.isSoldable = false;

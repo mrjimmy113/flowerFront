@@ -183,7 +183,7 @@ export class ProductCreateComponent implements OnInit {
       this.requestStatus = 0;
       productForm.resetForm();
     } else {
-      this.requestStatus ==1;
+      this.requestStatus = 1;
       let today = new Date();
       today.setHours(0, 0, 0, 0);
       this.product.created = today;
@@ -192,7 +192,13 @@ export class ProductCreateComponent implements OnInit {
       let fd = new FormData();
       fd.append("file", this.tmp);
       fd.append("product", JSON.stringify(this.product));
-      this.productSer.hello(fd).subscribe();
+      this.productSer.hello(fd).subscribe(result => {
+        if(result == 200) {
+          alert("Product added");
+          this.requestStatus = result;
+          this.closeModal();
+        }
+      });
     }
   }
 

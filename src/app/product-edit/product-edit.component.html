@@ -26,8 +26,8 @@
               </div>
               <div class="form-group">
                 <label>Event</label>
-                <select class="form-control" [(ngModel)]="product.event" name="eventId" #eventId="ngModel">
-                  <option *ngFor="let event of eventList" [ngValue]="event" [selected]="product.event.id == event.id">
+                <select class="form-control" [(ngModel)]="productEventId" name="eventId" #eventId="ngModel">
+                  <option *ngFor="let event of eventList" [value]="event.id">
                     {{event.name}}
                   </option>
                 </select>

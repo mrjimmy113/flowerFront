@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   changeInfor() {
     this.accSer.updateProfile(this.account).subscribe(result => {
       this.account = result;
+      if(this.account) alert("Successfully change Information")
     })
   }
   changePassword() {
@@ -37,7 +38,10 @@ export class ProfileComponent implements OnInit {
     fd.append("oldP", this.oldPass);
     fd.append("newP", this.newPass);
     this.accSer.changePass(fd).subscribe(result => {
-      if(result == 200) alert("Successfully change password");
+      if(result == 200) {
+        alert("Successfully change password");
+        location.reload();
+      }
       if(result == 202) alert("Old Password is Wrong");
       if(result == 400) alert("Error");
     })
