@@ -1,4 +1,4 @@
-<h2>Item Import</h2>
+<h2>Order</h2>
 <div class="d-flex justify-content-end">
   <div class="form-inline">
     <div class="input-group mb-3">
@@ -7,7 +7,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">From</span>
           </div>
-          <input type="date" class="form-control" [(ngModel)]="from" >
+          <input type="date" class="form-control" [(ngModel)]="from">
         </div>
       </div>
       <div class="form-group">
@@ -77,9 +77,11 @@
           <div class="w3-dropdown-hover">
             <i class="fas fa-pen "></i>
             <div class="w3-dropdown-content w3-bar-block">
-                <button class="w3-bar-item btn btn-info" (click)="showDetail(item.orderId)">Show Detail</button>
-              <button class="w3-bar-item btn btn-success" (click)="complete(item.orderId)">Complete</button>
-              <button class="w3-bar-item btn btn-danger" (click)="cancel(item.orderId)">Cancel</button>
+              <button class="w3-bar-item btn btn-info" (click)="showDetail(item.orderId)">Show Detail</button>
+              <div *ngIf="item.orderStatus == 'PROCESSING'">
+                <button class="w3-bar-item btn btn-success" (click)="complete(item.orderId)">Complete</button>
+                <button class="w3-bar-item btn btn-danger" (click)="cancel(item.orderId)">Cancel</button>
+              </div>
             </div>
           </div>
         </div>

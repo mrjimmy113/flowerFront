@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../service/authentication.service';
 import { OrderDetail } from './../models/orderDetail';
 import { Router } from '@angular/router';
 import { Order } from './../models/order';
@@ -16,10 +17,9 @@ export class CartComponent implements OnInit {
   order : Order;
   placeOrder =false;
   private todate = new Date();
-  constructor(private cartSer:CartService, private orderSer:OrderService,private route:Router) { }
+  constructor(private cartSer:CartService, private orderSer:OrderService,private route:Router, private authSer:AuthenticationService) { }
 
   ngOnInit() {
-    this.detailList = new Array<OrderDetail>();
     this.order = new Order();
     let tmp = this.cartSer.getCart();
     if(tmp) {
@@ -46,12 +46,20 @@ export class CartComponent implements OnInit {
     this.total = 0;
     this.cartSer.updateCart(this.detailList);
     this.detailList = this.cartSer.getCart();
-    this.detailList.forEach(element => {
-      this.total += element.unit * element.quantity;
-    });
+    if(this.detailList != null) {
+      this.detailList.forEach(element => {
+        this.total += element.unit * element.quantity;
+      });
+    }
   }
 
   checkOut() {
+    let token = this.authSer.getToken();
+    if(token == null) {
+      alert("Please login to check out");
+      this.route.navigateByUrl("/login");
+      return;
+    }
     let order = this.order;
     let details = this.cartSer.getCart();
     order.detail = details;
@@ -67,6 +75,7 @@ export class CartComponent implements OnInit {
       }
       if(result == 202) {
         alert("Sorry, some of the product you purchase is out of stock");
+        this.placeOrder = false;
       }
 
     });

@@ -16,8 +16,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let d of details">
-              <td>{{d.product.productName}}</td>
-              <td>{{d.product.price}}</td>
+              <td *ngIf="d.product != null">{{d.product.productName}}</td>
+              <td *ngIf="d.product == null">DELETED PRODUCT</td>
+              <td *ngIf="d.product != null">{{d.product.price}}</td>
+              <td *ngIf="d.product == null">DELETED PRODUCT</td>
               <td>{{d.quantity}}</td>
             </tr>
           </tbody>

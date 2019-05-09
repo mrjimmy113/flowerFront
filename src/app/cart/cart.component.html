@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center">
       <h3>Your cart</h3>
     </div>
-    <div *ngIf="!(detailList.length == 0)">
+    <div *ngIf="detailList != null">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -92,7 +92,7 @@
     </div>
 
 
-    <div *ngIf="detailList.length == 0" class="d-flex justify-content-center ">
+    <div *ngIf="detailList == null" class="d-flex justify-content-center ">
       <h4>Empty Cart</h4>
     </div>
   </div>

@@ -56,7 +56,11 @@ export class ProductComponent implements OnInit {
 
   }
   delete(id) {
-    this.productSer.delete(id).subscribe();
+    if(confirm("Are you sure for deleting this product")) {
+      this.productSer.delete(id).subscribe(result => {
+        if(result == 200) this.getAll();
+      });
+    }
   }
   getAll() {
     this.productSer.search(this.searchTerm).subscribe(result => {

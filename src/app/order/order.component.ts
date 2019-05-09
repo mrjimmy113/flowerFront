@@ -61,14 +61,24 @@ export class OrderComponent implements OnInit {
     return date.getTime();
   }
   complete(id) {
-    this.orderSer.complete(id).subscribe(result => {
-      if(result == 200) alert("Order has been completed")
-    });
+    if(confirm("Are you sure for completing this order")) {
+      this.orderSer.complete(id).subscribe(result => {
+        if(result == 200) {
+          alert("Order has been completed");
+          this.search();
+        }
+      });
+    }
   }
   cancel(id) {
-    this.orderSer.cancel(id).subscribe(result => {
-      if(result == 200) alert("Order has been completed")
-    });
+    if(confirm("Are you sure for cancelling this order")) {
+      this.orderSer.cancel(id).subscribe(result => {
+        if(result == 200) {
+          alert("Order has been cancelled");
+          this.search();
+        }
+      });
+    }
   }
   showDetail(id) {
     this.orderSer.getDetail(id).subscribe(result =>{
